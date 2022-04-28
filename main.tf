@@ -5,25 +5,22 @@ resource "linode_sshkey" "mykey" {
 }
 
 resource "linode_instance" "db" {
-  count           = var.db_node_count
-  label           = "db_server-${count.index}"
-  image           = "linode/ubuntu20.04"
+  count           = var.node_count
+  label           = "${var.label}-${count.index}"
+  image           = var.image
   region          = var.region
-  type            = var.db_instance_type
+  type            = var.instance_type
   authorized_keys = [linode_sshkey.mykey.ssh_key]
-  root_pass       = random_string.password.result
-  # root_pass       = var.root_password
-
-  group      = "dbservers"
-  tags       = ["demo"]
-  private_ip = true
+  root_pass       = random_string.password.result #var.root_password
+  group           = var.group
+  tags            = var.tags
+  private_ip      = true
 
 
   connection {
-    type = "ssh"
-    user = "root"
-    # password = var.root_password
-    password = random_string.password.result
+    type     = "ssh"
+    user     = "root"
+    password = random_string.password.result #var.root_password
     host     = self.ip_address
   }
 
