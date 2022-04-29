@@ -6,7 +6,7 @@ resource "linode_sshkey" "mykey" {
 
 resource "linode_instance" "db" {
   count           = var.node_count
-  label           = "${var.label}-${count.index}"
+  label           = "${var.SITE}-db${var.ID + count.index}.${var.DOMAIN}"
   image           = var.image
   region          = var.region
   type            = var.instance_type
