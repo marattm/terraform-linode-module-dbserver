@@ -12,6 +12,11 @@ resource "random_string" "password" {
   number  = true
 }
 
+variable "backups_enabled" {
+  type    = bool
+  default = false
+}
+
 variable "image" {}
 variable "label" {
   default = "example_db_instance_label"
